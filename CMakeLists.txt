@@ -11,6 +11,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(ODBC REQUIRED)
+#find_package(ODBCBCP REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -42,7 +44,17 @@ else()
     endif()
 endif()
 
+find_library(ODBCBCP odbcbcp.lib "C:/Program Files (x86)/Microsoft Kits/10/Lib/10.0.22621.0/um/x64")
+
 target_link_libraries(HybridBulkTest PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(HybridBulkTest PRIVATE ODBC::ODBC)
+target_link_libraries(HybridBulkTest PRIVATE ODBCBCP)
+
+# compile with: odbc32.lib odbcbcp.lib
+#find_library(ODBC32 odbc32 "C:/Program Files (x86)/Microsoft Kits/10/Lib/10.0.22621.0/um/x64")
+#find_library(ODBCBCP odbcbcp "C:/Program Files (x86)/Microsoft Kits/10/Lib/10.0.22621.0/um/x64")
+#MESSAGE( STATUS "ODBC32:           " ${ODBC32} )
+#MESSAGE( STATUS "ODBCBCP:          " ${ODBCCP32} )
 
 set_target_properties(HybridBulkTest PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
